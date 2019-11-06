@@ -18,8 +18,9 @@ executable zzbot
   ghc-options:         -Wincomplete-patterns
   build-depends:       base >= 4.7 && < 5,
                        containers,
-                       hspec,
-                       strings
+                       megaparsec,
+                       void,
+                       safe
   other-modules:       Config
 
 test-suite spec
@@ -30,5 +31,7 @@ test-suite spec
   build-depends:       base >= 4.7 && < 5,
                        containers,
                        hspec,
-                       strings
+                       megaparsec,
+                       void,
+                       safe
   other-modules:       Config

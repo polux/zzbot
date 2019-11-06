@@ -7,23 +7,13 @@ import Config
 
 main :: IO ()
 main = hspec $ do
-  describe "splitAround" $ do
-    it "splitAround prefix" $
-      splitAround "f" "foobar"  `shouldBe` Just ("", "oobar")
-    it "splitAround middle" $
-      splitAround "b" "foobar"  `shouldBe` Just ("foo", "ar")
-    it "splitAround end" $
-      splitAround "r" "foobar"  `shouldBe` Just ("fooba", "")
-    it "splitAround nothing" $
-      splitAround "c" "foobar"  `shouldBe` Nothing
-
-    it "splitDelimiters Nothing" $
-      splitDelimiters "(" ")" "foobar" `shouldBe` Nothing
-    it "splitDelimiters 1" $
-      splitDelimiters "(" ")" "foo(var)bar" `shouldBe` Just("foo", "var", "bar")
-    it "splitDelimiters 2" $
-      splitDelimiters "(" ")" "(var)bar" `shouldBe` Just("", "var", "bar")
-    it "splitDelimiters 3" $
-      splitDelimiters "(" ")" "foo(var)" `shouldBe` Just("foo", "var", "")
-    it "splitDelimiters 4" $
-      splitDelimiters "$(" ")" "foo$(var)" `shouldBe` Just("foo", "var", "")
+  describe "parseLeaf" $ do
+    it "parseLeaf empty string" $
+      parse "" `shouldBe` [Text ""]
+    it "parseLeaf no var" $
+      parse "foobar" `shouldBe` [Text "foobar"]
+    it "parseLeaf vars" $
+      parse "foo((ab))bar((cd))baz" `shouldBe` [Text "foo", Var "ab", Text "bar", Var "cd", Text "baz"]
+    -- ...
+ where
+  parse = parseLeaf "((" "))"
